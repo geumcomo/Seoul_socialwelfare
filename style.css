@@ -1,9 +1,51 @@
-/* 지도를 표시할 div의 크기 지정 */
-#map {
-  position: fixed;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+  }
   
-}
+  #sidebar {
+    width: 250px;
+    height: 100vh; /* 뷰포트의 높이에 맞게 설정 */
+    background-color: #f4f4f4;
+    padding: 20px;
+  }
+  
+  #map-container {
+    flex-grow: 1;
+    position: relative;
+  }
+  
+  h1 {
+    text-align: center;
+    margin-top: 20px;
+  }
+  
+  #map {
+    width: 100%; /* 부모 요소에 맞게 지도의 너비를 조정 */
+    height: calc(100vh - 40px); /* 뷰포트의 높이에서 상단 여백과 하단 여백을 빼서 지도의 높이를 조정 */
+    margin-top: 20px;
+  }
+  
+  .facility-item {
+    cursor: pointer;
+    margin-bottom: 10px;
+  }
+  
+  .facility-item:hover {
+    background-color: #ccc;
+  }
+  
+  #current-location-button {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  

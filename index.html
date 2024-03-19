@@ -14,5 +14,24 @@
     <script src="https://cdn.jsdelivr.net/npm/ol@v9.0.0/dist/ol.js"></script>
     <script src="main.js"></script>
     <!-- JavaScript 코드 -->
+    <div id="sidebar">
+      <h2>복지 시설</h2>
+      <input type="text" id="search-input" placeholder="복지 시설 검색">
+      <div id="facility-list"></div><br>
+      <h4>#찾는 항목에 체크하세요</h4>
+      <input type="checkbox" id="checkbox1" name="checkbox1" value="value1">
+      <label for="checkbox1">아동 복지 시설</label><br>
+
+      <input type="checkbox" id="checkbox2" name="checkbox2" value="value2">
+      <label for="checkbox2">노인 복지 시설</label><br>
+
+      <input type="checkbox" id="checkbox3" name="checkbox3" value="value3">
+      <label for="checkbox3">...</label><br>
+  </div>
+  <div id="map-container">
+      <h1>복지시설 지도</h1>
+      <button id="current-location-button">내 위치</button>
+      <div id="map"></div>
+  </div>
 </body>
 </html>
