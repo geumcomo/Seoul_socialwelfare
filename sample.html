@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>캡스톤</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+        #sidebar {
+            width: 250px;
+            height: 878px;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+        #map-container {
+            flex-grow: 1;
+        }
+        h1 {
+            text-align: center;
+            margin-top: 20px;
+        }
+        #map {
+            height: 835px;
+            width: 100%;
+            margin-top: 20px;
+        }
+        .facility-item {
+            cursor: pointer;
+            margin-bottom: 10px;
+        }
+        .facility-item:hover {
+            background-color: #ccc;
+        }
+        #current-location-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div id="sidebar">
+        <h2>복지 시설</h2>
+        <input type="text" id="search-input" placeholder="복지 시설 검색">
+        <div id="facility-list"></div><br>
+        <h4>#찾는 항목에 체크하세요</h4>
+        <input type="checkbox" id="checkbox1" name="checkbox1" value="value1">
+        <label for="checkbox1">아동 복지 시설</label><br>
+
+        <input type="checkbox" id="checkbox2" name="checkbox2" value="value2">
+        <label for="checkbox2">노인 복지 시설</label><br>
+
+        <input type="checkbox" id="checkbox3" name="checkbox3" value="value3">
+        <label for="checkbox3">...</label><br>
+    </div>
+    <div id="map-container">
+        <h1>복지시설 지도</h1>
+        <button id="current-location-button">내 위치</button>
+        <div id="map"></div>
+    </div>
+
+    <script>
+        let map;
+
+        const welfareFacilities = [
+            {
+                name: "복지시설1",
+                description: "이 시설은 무료 급식을 제공합니다."
+            },
+            {
+                name: "복지시설2",
+                description: "이 시설은 재활 프로그램을 운영합니다."
+            },
+            // 복지 시설의 정보를 추가할 수 있습니다.
+        ];
+
+        function initMap() {
+            map = new google.maps.Map(document.getElementById("map"), {
+                center: { lat: 37.5665, lng: 126.9780 }, // 서울을 중심으로 설정
+                zoom: 10, // 지도 확대 레벨
+            });
+
+            const facilityList = document.getElementById("facility-list");
+            const searchInput = document.getElementById("search-input");
+
+            // 복지 시설 목록 초기화
+            function initFacilityList() {
+                facilityList.innerHTML = '';
+                welfareFacilities.forEach((facility, index) => {
+                    const marker = new google.maps.Marker({
+                        position: { lat: 37.5 + (index * 0.05), lng: 126.9 + (index * 0.05) },
+                        map: map,
+                        title: facility.name,
+                    });
+
+                    marker.addListener('click', () => {
+                        displayFacilityInfo(facility);
+                    });
+
+                    const facilityItem = document.createElement("div");
+                    facilityItem.classList.add("facility-item");
+                    facilityItem.textContent = facility.name;
+                    facilityItem.addEventListener("click", () => {
+                        displayFacilityInfo(facility);
+                    });
+                    facilityList.appendChild(facilityItem);
+                });
+            }
+
+            // 검색 기능
+            searchInput.addEventListener('input', () => {
+                const searchTerm = searchInput.value.toLowerCase();
+                const filteredFacilities = welfareFacilities.filter(facility => {
+                    return facility.name.toLowerCase().includes(searchTerm);
+                });
+                initFacilityList(filteredFacilities);
+            });
+
+            initFacilityList(welfareFacilities);
+
+            // 현재 위치로 이동 버튼 클릭 이벤트 리스너 추가
+            const currentLocationButton = document.getElementById("current-location-button");
+            currentLocationButton.addEventListener("click", () => {
+                moveToCurrentLocation();
+            });
+        }
+
+        function moveToCurrentLocation() {
+            // 사용자의 현재 위치로 이동
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        const userLocation = {
+                            lat: position.coords.latitude,
+                            lng: position.coords.longitude,
+                        };
+                        map.setCenter(userLocation);
+                        map.setZoom(15); // 사용자
+                    });
+            }
+        }
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap" async defer></script>
+</body>
+</html>
