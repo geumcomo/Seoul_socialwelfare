@@ -1,14 +1,9 @@
-@import "node_modules/ol/ol.css";
-
-html,
-body {
-  margin: 0;
-  height: 100%;
-}
-
+/* 지도를 표시할 div의 크기 지정 */
 #map {
-  position: absolute;
+  position: fixed;
   top: 0;
+  left: 0;
   bottom: 0;
-  width: 100%;
+  right: 0;
+  
 }
